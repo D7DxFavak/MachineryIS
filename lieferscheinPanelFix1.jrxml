@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<parameter name="firma" class="java.lang.String"/>
+	<parameter name="adresa_ulice" class="java.lang.String"/>
+	<parameter name="adresa_psc_mesto" class="java.lang.String"/>
+	<parameter name="datum_vystaveni" class="java.lang.String"/>
+	<parameter name="vystavil" class="java.lang.String"/>
+	<parameter name="lieferschein" class="java.lang.String"/>
+	<parameter name="zakaznik_id" class="java.lang.Integer"/>
+	<parameter name="lieferschein_id" class="java.lang.Long"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT lieferscheiny_polozky_fix_kusu || ' St.' AS Menge,
+                objednavky_nazev_soucasti AS Benennung,
+                vykresy_cislo || ' ' ||  COALESCE(vykresy_revize, ' ')  AS Zeichnungs,
+                objednavky_cislo_objednavky AS Bestell
+               FROM spolecne.lieferscheiny_polozky_fix
+                CROSS JOIN spolecne.objednavky
+                CROSS JOIN spolecne.vykresy
+                WHERE objednavky_zakaznik_id = $P{zakaznik_id}
+               AND lieferscheiny_polozky_fix_id = $P{lieferschein_id}
+                AND lieferscheiny_polozky_fix_objednavky_id = objednavky_id
+                AND vykresy.vykresy_id = lieferscheiny_polozky_fix.lieferscheiny_polozky_fix_cislo_vykresu
+               ORDER BY objednavky_reklamace, vykresy_cislo ASC]]>
+	</queryString>
+	<field name="menge" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="benennung" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="zeichnungs" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="bestell" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="194" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="166" width="555" height="28"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isUnderline="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{lieferschein}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="332" y="27" width="223" height="17"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{firma}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="332" y="45" width="223" height="17"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{adresa_ulice}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="332" y="63" width="223" height="17"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{adresa_psc_mesto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="332" y="97" width="60" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Pilsen, den  ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="395" y="97" width="127" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{datum_vystaveni}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="58" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="51" y="29" width="39" height="18" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Menge:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="108" y="29" width="168" height="18" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Benennung:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="276" y="29" width="114" height="18" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Zeichnungs:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="395" y="29" width="95" height="18" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Bestell.Nr.:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="51" y="47" width="439" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField>
+				<reportElement x="39" y="0" width="51" height="16"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{menge}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="108" y="0" width="168" height="16"/>
+				<textElement>
+					<font fontName="Arial" size="11" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{benennung}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="276" y="0" width="116" height="16"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{zeichnungs}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="395" y="0" width="95" height="16"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{bestell}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="42" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement x="287" y="22" width="103" height="16"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="73" y="22" width="214" height="16"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{PAGE_NUMBER}+" /"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="73" splitType="Stretch">
+			<textField>
+				<reportElement x="390" y="45" width="126" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{vystavil}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="390" y="59" width="100" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Jednatel]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

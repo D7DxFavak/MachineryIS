@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<parameter name="pruvodky_id_int" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT
+     pracovni_postup_pruvodka_druh_stroje_id AS stroj,
+     pracovni_postup_pruvodka_popis AS postup
+FROM
+     "spolecne"."pracovni_postup_pruvodka"
+WHERE
+     pracovni_postup_pruvodka_pruvodka_id = 1]]>
+	</queryString>
+	<field name="stroj" class="java.lang.Integer"/>
+	<field name="postup" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="33" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="258" splitType="Stretch"/>
+	</detail>
+</jasperReport>

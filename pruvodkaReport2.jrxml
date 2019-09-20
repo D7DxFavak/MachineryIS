@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="421" pageHeight="595" columnWidth="381" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4cf43db6-e8f0-4043-b454-9349a7d322c4">
+	<property name="ireport.zoom" value="4.0"/>
+	<property name="ireport.x" value="331"/>
+	<property name="ireport.y" value="200"/>
+	<subDataset name="dataset1" uuid="eb4eea2d-fea4-4f40-89a3-f8640f598991"/>
+	<parameter name="nazev_pruvodky" class="java.lang.String"/>
+	<parameter name="cislo_vykresu" class="java.lang.String"/>
+	<parameter name="termin_dodani" class="java.lang.String"/>
+	<parameter name="objednano_kusu" class="java.lang.String"/>
+	<parameter name="prebytky_kusu" class="java.lang.String"/>
+	<parameter name="vyrobit_kusu" class="java.lang.String"/>
+	<parameter name="druh_materialu" class="java.lang.String"/>
+	<parameter name="polotovar_rozmer" class="java.lang.String"/>
+	<parameter name="narezat_kusu" class="java.lang.String"/>
+	<parameter name="prumerna_delka" class="java.lang.String"/>
+	<parameter name="cislo_regalu" class="java.lang.String"/>
+	<parameter name="program1" class="java.lang.String"/>
+	<parameter name="program2" class="java.lang.String"/>
+	<parameter name="program3" class="java.lang.String"/>
+	<parameter name="program4" class="java.lang.String"/>
+	<parameter name="pruvodky_id" class="java.lang.String"/>
+	<parameter name="pruvodky_int_id" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT
+     pracovni_postup_pruvodka_poradi AS poradi,
+     druhy_stroju_nazev AS stroj,
+     pracovni_postup_pruvodka_popis AS postup
+FROM
+     "spolecne"."pracovni_postup_pruvodka"
+CROSS JOIN spolecne.druhy_stroju
+WHERE druhy_stroju_id = pracovni_postup_pruvodka_druh_stroje_id AND pracovni_postup_pruvodka_pruvodka_id = $P{pruvodky_int_id}]]>
+	</queryString>
+	<field name="poradi" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="stroj" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="postup" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<sortField name="poradi"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="231" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="93fb651b-0c7b-4718-a8f2-ab9137c84243" x="5" y="76" width="77" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="false" isItalic="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Termín :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5fa932a2-6b99-49f6-976c-4ef953578325" x="5" y="36" width="41" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="false" isItalic="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Název :]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="c1aaa7ab-bf26-4fda-a735-e72256c014b7" x="82" y="76" width="108" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{termin_dodani}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="8072b9da-13d5-4957-bfb8-7eb9b3012c8d" x="1" y="0" width="188" height="36"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="22" isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Průvodka]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="a6a9dcb6-f60a-46b4-90e8-d0e57507a349" x="93" y="211" width="97" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cislo_regalu}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="c9f1f689-3f70-4e58-970a-999460fa7bf9" x="195" y="96" width="77" height="25"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isItalic="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Materiál:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bfd30344-edcc-4120-ad72-9f2c36490f87" x="195" y="180" width="88" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isItalic="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Vyrobeno ks :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f4352939-de86-4e8f-930a-df7f9f12c5cd" x="195" y="156" width="77" height="21"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isItalic="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Nařezat ks :]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="80d89fcf-b146-4f9e-881f-7aace2acce15" x="281" y="96" width="98" height="24"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{druh_materialu}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7a0bcc58-c2b1-45a5-98c6-f90c97d3760a" x="93" y="180" width="97" height="31"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="13" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{vyrobit_kusu}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="0f03be79-b811-4cc6-9193-dd4fb80da51a" x="195" y="211" width="88" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isItalic="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Přebytky ks]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="2c5e9920-38ec-446d-8c1f-c4e922f09448" x="46" y="36" width="144" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nazev_pruvodky}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5741544e-7b37-4125-a2c8-2cf06b9669cf" x="93" y="152" width="97" height="27"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{objednano_kusu}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="4b3bc0d8-a959-4f59-8239-5d9f263273ac" x="5" y="180" width="88" height="31"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isItalic="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Vyrobit ks :]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement uuid="8f515951-2729-4ff1-838a-a3ad80e8a5a0" x="210" y="13" width="155" height="64"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code128" drawText="true" checksumRequired="false" barHeight="70">
+					<jr:codeExpression><![CDATA[$P{pruvodky_id}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<staticText>
+				<reportElement uuid="ec37a104-2a17-4f4a-9b0a-012fe3b207c7" x="5" y="56" width="77" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="false" isItalic="true" pdfFontName="Helvetica" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Číslo výkresu :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e1b7b3bc-b8ae-4474-bd76-d0dc3b44dc7d" x="5" y="152" width="88" height="27"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isItalic="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Počet ks objednaných :]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="d4b55387-9ef7-4c41-883d-46ebab80d5c6" x="283" y="156" width="98" height="22"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{narezat_kusu}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ee5296ee-997b-4ecd-9f56-a3c477ebdab3" x="284" y="211" width="97" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{prebytky_kusu}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f6203a69-3c9b-437c-9656-1861a588c50a" x="82" y="56" width="108" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cislo_vykresu}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="50427d33-946e-44e7-996d-858293a1c2ae" x="195" y="123" width="77" height="26"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isItalic="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Polotovar - rozměr:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3e1288d8-7557-4f44-a9ea-2e8ef9ae4ec7" x="5" y="211" width="88" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isItalic="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Číslo regálu:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="93d0246d-332d-45d4-95db-cdbdc11180a3" x="4" y="96" width="88" height="16"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isItalic="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Číslo programu :]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="4bb3268d-5aaf-47b3-8401-a5b3e1b82701" x="282" y="123" width="98" height="25"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{polotovar_rozmer}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="28462049-58be-4c42-8a70-f23069ffec0c" x="0" y="0" width="381" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="75f32f0f-7719-4f16-9c4c-9f1f70ba6940" x="381" y="0" width="1" height="231"/>
+			</line>
+			<line>
+				<reportElement uuid="11650e88-45ef-4f50-92bb-7137ef5a620a" x="0" y="0" width="1" height="231"/>
+			</line>
+			<line>
+				<reportElement uuid="85ece030-3e88-4e53-8eaa-566e4a1b2913" x="190" y="0" width="1" height="231"/>
+			</line>
+			<line>
+				<reportElement uuid="c73bb6e6-c263-4e40-8ad3-ce98fdc62e04" x="0" y="36" width="190" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="9506f442-7bc6-4d86-abec-4a5b0620436e" x="1" y="56" width="189" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="bde6ed19-fc3d-472e-8490-b1da1b7c5278" x="0" y="76" width="190" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="2d14dd65-caac-4d67-9fca-2bd50f887230" x="1" y="95" width="189" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="062ffe29-0ae4-4477-bec0-f53cae041bd1" x="1" y="151" width="189" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="4bb79c34-70ec-44c5-823d-066a8e9e9432" x="1" y="178" width="189" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="d8a838e7-1690-4efe-9fbf-9d87395a5f17" x="1" y="210" width="189" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="c191aa5e-b681-4940-8971-e9e2d4282d67" x="191" y="95" width="189" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="bbdcfa8c-d4e8-4235-84a9-e6d0ae7b11c6" x="190" y="122" width="189" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="a396a66d-b26a-4120-bd21-eb4f9d6ca55f" x="190" y="151" width="191" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="e2703715-986b-4853-9a16-abec8161cb59" x="190" y="178" width="189" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="c2085228-7b24-4ef0-8ea3-a6f87e75ed32" x="191" y="210" width="189" height="1"/>
+			</line>
+			<textField>
+				<reportElement uuid="0955a162-f825-4c90-a1dc-9533729adfce" x="92" y="95" width="97" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{program1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5239f270-9370-4223-8b4c-596f3aa0dec0" x="92" y="109" width="97" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{program2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="464049e9-bac3-45b0-a339-ba133e3e800d" x="92" y="123" width="97" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{program3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3dcf7ae5-afbd-43a2-bc6d-3ecc8495a705" x="93" y="137" width="97" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{program4}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="e805aecd-3eba-469f-9035-ffbd037292f7" mode="Opaque" x="23" y="0" width="52" height="18" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isItalic="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[stroj]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a97a726d-5592-4a6d-b9e3-f4e9b3a9c46d" mode="Opaque" x="93" y="0" width="256" height="18" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isItalic="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[postup]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b98cbc90-ca1a-42a1-921f-4b7bc288b09d" mode="Opaque" x="1" y="0" width="20" height="18" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isItalic="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[pos]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="88d1afe2-25bd-4c63-a8db-7abe6321f51e" positionType="FixRelativeToBottom" x="0" y="17" width="381" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="a5c435a7-dbf7-40dc-8ebc-ba1dbd53ca6a" x="0" y="0" width="381" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="2c98425d-2275-44a9-add3-8bda41ca4f31" x="74" y="1" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement uuid="f4333413-b198-423f-b40a-0fd9d3c35db6" x="22" y="1" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement uuid="3f23dad5-4c8a-4c41-aa48-22743eef1461" x="0" y="1" width="1" height="16"/>
+			</line>
+			<line>
+				<reportElement uuid="5e2e59a5-171f-47df-8a25-dd53f6257744" x="381" y="0" width="1" height="17"/>
+			</line>
+			<line>
+				<reportElement uuid="cb1a5cf0-60aa-4611-b6dd-8f5cc6ab6de0" x="349" y="0" width="1" height="16"/>
+			</line>
+			<staticText>
+				<reportElement uuid="d70aa881-09a7-4a80-9901-e7cc68c9756d" x="350" y="1" width="31" height="16"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[ks]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<textField>
+				<reportElement uuid="de4c21ef-2afa-45eb-ac64-a75a589e8649" x="23" y="0" width="51" height="13"/>
+				<textElement>
+					<font fontName="Arial" size="10" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stroj}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="1d33866a-6c7e-4be4-a1ce-ffb98ff63560" stretchType="RelativeToBandHeight" x="75" y="0" width="274" height="13" isPrintWhenDetailOverflows="true"/>
+				<textElement>
+					<font fontName="Arial" size="10" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{postup}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3e1986c8-7081-465c-b453-a9d2c5b284eb" mode="Opaque" x="1" y="0" width="20" height="13" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="false" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{poradi}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="988b9422-c8db-457e-8cf3-b866f4655124" stretchType="RelativeToBandHeight" x="74" y="0" width="1" height="13"/>
+			</line>
+			<line>
+				<reportElement uuid="3d3eea61-2908-41f6-9374-5e3dd231487f" stretchType="RelativeToBandHeight" x="0" y="0" width="1" height="13"/>
+			</line>
+			<line>
+				<reportElement uuid="cc25058d-94ab-4c2f-bf10-5ea495429732" stretchType="RelativeToBandHeight" x="381" y="0" width="1" height="13"/>
+			</line>
+			<line>
+				<reportElement uuid="985e7db4-914d-4c16-81ca-1474e30f231c" positionType="FixRelativeToBottom" x="0" y="13" width="381" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="be550c41-c250-43f4-adbe-f48cce991fb0" stretchType="RelativeToBandHeight" x="349" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement uuid="9c8177bd-e02b-40d6-9b10-25c3050cd2a7" stretchType="RelativeToBandHeight" x="22" y="0" width="1" height="13"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="18">
+			<staticText>
+				<reportElement uuid="d76deebd-be34-444b-8c82-2f30bfac5f92" x="5" y="3" width="96" height="14"/>
+				<textElement>
+					<font fontName="Arial" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[FQ 7.0-1/7502]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1d8ca969-cf9c-44fb-9ef1-4a80375aff89" x="331" y="4" width="50" height="14"/>
+				<textElement>
+					<font fontName="Arial" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[4.12.2013]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3f0464e5-9d9e-4eee-96e9-4009ecb955fa" x="272" y="4" width="59" height="14"/>
+				<textElement>
+					<font fontName="Arial" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Revize 0]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement uuid="1a23783f-56a4-4ee5-b7c8-5f7ee8f1482b" x="191" y="2" width="40" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5ec6e923-1d0e-459b-8bdf-8808f3a4a881" x="130" y="2" width="61" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}+"/"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Pruvodka" pageWidth="421" pageHeight="595" whenNoDataType="NoDataSection" columnWidth="381" leftMargin="20" rightMargin="20" topMargin="25" bottomMargin="20" whenResourceMissingType="Empty">
+	<style name="Crosstab Data Text" isDefault="false" hAlign="Center"/>
+	<parameter name="nazev_pruvodky" class="java.lang.String"/>
+	<parameter name="cislo_vykresu" class="java.lang.String"/>
+	<parameter name="termin_dodani" class="java.lang.String"/>
+	<parameter name="pocet_kusu" class="java.lang.String"/>
+	<parameter name="prebytky_kusu" class="java.lang.String"/>
+	<parameter name="pocet_kusu_sklad" class="java.lang.String"/>
+	<parameter name="druh_materialu" class="java.lang.String"/>
+	<parameter name="polotovar_rozmer" class="java.lang.String"/>
+	<parameter name="narezat_kusu" class="java.lang.String"/>
+	<parameter name="prumerna_delka" class="java.lang.String"/>
+	<parameter name="cislo_regalu" class="java.lang.String"/>
+	<parameter name="programy" class="java.lang.String"/>
+	<parameter name="pruvodky_id" class="java.lang.String"/>
+        <parameter name="pruvodky_int_id" class="java.lang.Long"/>
+	<detail>
+		<band height="532" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="381" height="531"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="166" width="190" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="36" width="190" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="56" width="190" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="76" width="190" height="20"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="96" width="190" height="70"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="190" y="0" width="191" height="88"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="46" y="238" width="190" height="36"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="36" width="41" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Název :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="76" width="77" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Termín :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="56" width="77" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true" pdfFontName="Helvetica" pdfEncoding="Cp1252"/>
+				</textElement>
+				<text><![CDATA[Číslo výkresu :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="167" width="88" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Počet ks objednaných :]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="186" width="190" height="25"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="96" width="88" height="19"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Číslo programu :]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="190" y="88" width="191" height="26"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="195" y="89" width="77" height="26"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Materiál -          druh :]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="190" y="114" width="191" height="26"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="195" y="114" width="77" height="26"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Polotovar - rozměr:]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="190" y="140" width="191" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="195" y="141" width="77" height="19"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Nařezat ks :]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="190" y="160" width="191" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="195" y="160" width="88" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Průměrná délka :]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="231" width="381" height="300"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="190" y="205" width="191" height="26"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="195" y="205" width="88" height="26"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Počet ks                 na sklad :]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="190" y="180" width="191" height="25"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="195" y="180" width="88" height="25"/>
+				<textElement verticalAlignment="Middle">
+					<font size="13"/>
+				</textElement>
+				<text><![CDATA[Vyrobeno ks :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="188" width="88" height="23"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Přebytky ks :]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="211" width="190" height="20"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="212" width="88" height="19"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Číslo regálu:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="0" width="185" height="36"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="22" isBold="true" pdfFontName="Helvetica" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Průvodka]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="46" y="36" width="144" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{nazev_pruvodky}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="82" y="56" width="108" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{cislo_vykresu}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="82" y="76" width="108" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{termin_dodani}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="167" width="97" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{pocet_kusu}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="187" width="97" height="24"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{prebytky_kusu}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="211" width="97" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{cislo_regalu}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="283" y="205" width="97" height="26"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{pocet_kusu_sklad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="284" y="160" width="97" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{prumerna_delka}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="283" y="140" width="98" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{narezat_kusu}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="282" y="115" width="98" height="25"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{polotovar_rozmer}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="282" y="89" width="98" height="25"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{druh_materialu}]]></textFieldExpression>
+			</textField>
+			<componentElement>
+				<reportElement x="195" y="10" width="185" height="46"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="EAN128" drawText="false" checksumRequired="false" barHeight="70">
+					<jr:codeExpression><![CDATA[$P{pruvodky_id}]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<textField>
+				<reportElement x="236" y="56" width="108" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{pruvodky_id}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

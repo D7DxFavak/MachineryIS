@@ -1,0 +1,679 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9bdd8a2e-f358-40f4-b3bf-1648ea37bb3d">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="160"/>
+	<parameter name="cislo_faktury" class="java.lang.String"/>
+	<parameter name="dic" class="java.lang.String"/>
+	<parameter name="datum_vystaveni" class="java.lang.String"/>
+	<parameter name="datum_splatnost" class="java.lang.String"/>
+	<parameter name="bankovni_ucet" class="java.lang.String"/>
+	<parameter name="iban" class="java.lang.String"/>
+	<parameter name="fakturu_vystavil" class="java.lang.String"/>
+	<parameter name="firma" class="java.lang.String"/>
+	<parameter name="firmaPokr" class="java.lang.String"/>
+	<parameter name="adresa_ulice" class="java.lang.String"/>
+	<parameter name="adresa_psc_mesto" class="java.lang.String"/>
+	<parameter name="adresa_stat" class="java.lang.String"/>
+	<parameter name="telefonni_cislo" class="java.lang.String"/>
+	<parameter name="firma_mikron" class="java.lang.String"/>
+	<parameter name="adresa_ulice_mikron" class="java.lang.String"/>
+	<parameter name="adresa_psc_mesto_mikron" class="java.lang.String"/>
+	<parameter name="stat_mikron" class="java.lang.String"/>
+	<parameter name="telefon" class="java.lang.String"/>
+	<parameter name="fax" class="java.lang.String"/>
+	<parameter name="celkova_cena" class="java.lang.String"/>
+	<parameter name="kontakt" class="java.lang.String"/>
+	<parameter name="dopravce" class="java.lang.String"/>
+	<parameter name="id_faktura" class="java.lang.Integer"/>
+	<parameter name="zakaznik_id" class="java.lang.Integer"/>
+	<parameter name="pocetPolozek" class="java.lang.Integer"/>
+	<parameter name="paymentMethod" class="java.lang.String"/>
+	<parameter name="vatId" class="java.lang.String"/>
+	<parameter name="lieferschein" class="java.lang.String"/>
+	<parameter name="mena" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM (SELECT * FROM(SELECT faktury_polozky_fix_kusu AS qty,
+                   COALESCE(faktury_polozky_fix_nazev_soucasti, objednavky_nazev_soucasti) AS description,
+                   COALESCE(faktury_polozky_fix_cislo_vykresu, vykresy_cislo) || '/' ||  COALESCE(faktury_polozky_fix_revize_vykresu,vykresy_revize, ' ')  AS line,
+                   COALESCE(faktury_polozky_fix_cislo_objednavky,objednavky_cislo_objednavky) AS purchase,
+                   faktury_polozky_fix_cena_za_kus AS price,
+                   faktury_polozky_fix_kusu * faktury_polozky_fix_cena_za_kus  AS netvalue,
+                   objednavky_material AS materialbbh,
+                   faktury_polozky_fix_poradi AS poradi,
+                   vykresy_je_realny AS realny
+                   FROM spolecne.objednavky
+                   CROSS JOIN spolecne.vykresy
+                   CROSS JOIN spolecne.vazba_faktury_objednavky
+                   WHERE objednavky_zakaznik_id = $P{zakaznik_id}
+                   AND vykresy.vykresy_id = objednavky.objednavky_cislo_vykresu
+                   AND vazba_faktury_objednavky_faktury_id = $P{id_faktura}
+                   AND vazba_faktury_objednavky_objednavky_id = objednavky.objednavky_id
+                   ORDER BY vazba_faktury_objednavky_poradi ASC, vykresy_je_realny DESC, vykresy_cislo ASC) AS x
+                   UNION SELECT vazba_faktury_dodatky_pocet AS qty,
+                   vazba_faktury_dodatky_text AS description,
+                    '' AS line,
+                    '' AS purchase,
+                    vazba_faktury_dodatky_cena_za_kus AS price,
+                    vazba_faktury_dodatky_pocet * vazba_faktury_dodatky_cena_za_kus AS netvalue,
+                    '' AS materialbbh,
+                    (vazba_faktury_dodatky_poradi +100) AS poradi,
+                    false AS realny
+                    FROM spolecne.vazba_faktury_dodatky
+                    WHERE vazba_faktury_dodatky_faktury_id = $P{id_faktura}) AS c
+                    ORDER BY poradi, realny, line]]>
+	</queryString>
+	<field name="qty" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="description" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="line" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="purchase" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="price" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="netvalue" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="materialbbh" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="331" splitType="Stretch">
+			<staticText>
+				<reportElement x="323" y="83" width="50" height="14" uuid="4d9fe66f-d9e0-4fcf-afba-644baf9ec392"/>
+				<textElement verticalAlignment="Middle">
+					<font isItalic="true" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Společnost:
+                ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="37" y="245" width="97" height="14" uuid="358355fb-5739-454d-800b-5ced09c208fe"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Datum splatnosti:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="37" y="284" width="69" height="16" uuid="4181d1f7-1254-4b9a-8613-c8d2bead137b"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SWIFT:
+                ]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="446" y="12" width="100" height="20" uuid="1d6e5333-9e15-451c-a5f2-a2aff3b460e6"/>
+			</rectangle>
+			<textField>
+				<reportElement x="446" y="12" width="100" height="20" uuid="ff409ad1-c163-43f6-9714-1f9d29629437"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cislo_faktury}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="387" y="82" width="167" height="14" uuid="d329eb87-7d15-40ec-9542-f9202119e648"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{firma}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="324" y="110" width="49" height="14" uuid="cb05c675-cbd3-4bce-b9c5-0433a829b498"/>
+				<textElement verticalAlignment="Middle">
+					<font isItalic="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Adresa:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="37" y="301" width="69" height="16" uuid="0878c0f3-fad2-4d1b-a671-fcef59b6ba7e"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[IBAN:
+                ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="322" y="81" width="233" height="1" uuid="7e482096-c9d6-4a36-8c57-01870819d14b"/>
+			</line>
+			<line>
+				<reportElement x="322" y="237" width="234" height="1" uuid="9f3684ce-c709-49ad-a178-cc872b7fe1f3"/>
+			</line>
+			<line>
+				<reportElement x="322" y="81" width="1" height="156" uuid="b571bd43-1281-403f-b78b-32398aca347a"/>
+			</line>
+			<line>
+				<reportElement x="555" y="81" width="1" height="156" uuid="ae4673b1-b21a-42a3-897e-6ecc3ce5f270"/>
+			</line>
+			<textField>
+				<reportElement x="134" y="217" width="155" height="14" uuid="0a8ddf55-3d68-44ef-8df5-04780c8ef39a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dic}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="134" y="231" width="155" height="14" uuid="88193b8b-d575-45a5-b24b-d33afd6596ed"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{datum_vystaveni}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="134" y="245" width="155" height="14" uuid="d58bf002-3207-4d12-88b3-70e8f5949b5c"/>
+				<textElement textAlignment="Left">
+					<font pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{datum_splatnost}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="35" y="283" width="254" height="1" uuid="81af7b05-60b6-4de7-8d72-99eb5ef0c893"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement mode="Opaque" x="35" y="317" width="255" height="1" uuid="36e6fa19-8faa-4999-9ef1-c04ffb1c5c63"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="289" y="283" width="1" height="34" uuid="1feaa84b-21eb-4d99-bd61-1e5c411de054"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="35" y="284" width="1" height="33" uuid="f76ec78e-1d3b-4bfa-8382-f55a8b6a17a6"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="106" y="284" width="183" height="16" uuid="8303218b-7099-4fdb-8ee1-8a84242c2ab1"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{bankovni_ucet}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="106" y="301" width="183" height="16" uuid="f471ec4e-8d2a-4cb3-8514-83d2580d39f6"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{iban}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="350" y="12" width="96" height="20" uuid="9ba712b7-2ecd-4d7b-896e-843c3ab18163"/>
+				<textElement verticalAlignment="Middle">
+					<font size="14" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Faktura č.                ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="35" y="55" width="70" height="20" uuid="24f1b952-4a4e-4000-a052-217eb57c1ef2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Dodavatel]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="321" y="55" width="70" height="20" uuid="90d99624-bb33-41d8-88f2-c94df8199f1c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Zákazník
+                ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="35" y="81" width="254" height="1" uuid="7ca4eb12-85e0-49e1-bd88-6abf9a5b95d7"/>
+			</line>
+			<staticText>
+				<reportElement x="37" y="82" width="69" height="14" uuid="65363086-a84b-4361-99b6-67cc2b42970b"/>
+				<textElement verticalAlignment="Middle">
+					<font isItalic="true" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Společnost:
+                ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="37" y="110" width="69" height="14" uuid="02cd8570-8aba-4340-ad0f-9304d4a3f3b5"/>
+				<textElement verticalAlignment="Middle">
+					<font isItalic="true" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Adresa:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="134" y="82" width="155" height="14" uuid="6c387f7a-567b-4981-babf-58db214e708e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{firma_mikron}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="134" y="110" width="155" height="14" uuid="fbd4a282-bdf2-41d8-96cf-36259ff5a855"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{adresa_ulice_mikron}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="134" y="124" width="155" height="14" uuid="af70ec50-a86b-446d-b3bc-bf0be88cb4e6"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{adresa_psc_mesto_mikron}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="37" y="151" width="69" height="14" uuid="2de404e2-7c3e-404f-8bf2-071da05afcf6"/>
+				<textElement verticalAlignment="Middle">
+					<font isItalic="true" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Stát:
+                ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="134" y="152" width="155" height="14" uuid="ba1a1502-4f6c-4723-8c2c-c66c505991c4"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true" isItalic="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{stat_mikron}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="37" y="165" width="69" height="14" uuid="cf89ef10-3bbd-412e-a2f7-7f0c3358766b"/>
+				<textElement verticalAlignment="Middle">
+					<font isItalic="true" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Vystavil:
+                ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="37" y="179" width="69" height="14" uuid="aec063e1-a930-4bb8-b0d9-62c5240a3883"/>
+				<textElement verticalAlignment="Middle">
+					<font isItalic="true" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Tel.č.:
+                ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="37" y="193" width="69" height="14" uuid="29929223-f14e-4105-b6ad-5cf412052798"/>
+				<textElement verticalAlignment="Middle">
+					<font isItalic="true" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Fax.č.:
+                ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="134" y="166" width="155" height="14" uuid="dde7ef1a-131a-462b-91e6-1cfb36896879"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fakturu_vystavil}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="134" y="180" width="155" height="14" uuid="0901de57-1591-4e5e-9057-b2a89d28ae24"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true" isItalic="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{telefon}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="134" y="194" width="155" height="14" uuid="723f800f-178d-438f-b7f6-10accfd58b1c"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true" isItalic="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fax}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="35" y="82" width="1" height="127" uuid="0be702f4-7c7d-4499-84b3-4a7d4f1608a4"/>
+			</line>
+			<line>
+				<reportElement x="35" y="209" width="255" height="1" uuid="dcb2491c-3525-449d-b090-3ec43ad72311"/>
+			</line>
+			<line>
+				<reportElement x="289" y="81" width="1" height="128" uuid="25e49354-8451-4add-a44b-9993f3936bf7"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="387" y="110" width="167" height="14" uuid="49cead63-1ec7-4064-a7df-c5b0f5111d65"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{adresa_ulice}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="387" y="124" width="167" height="14" uuid="b68c4ed8-063e-40b7-aacb-5baabe2c2012"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{adresa_psc_mesto}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="387" y="138" width="167" height="14" uuid="c6258933-c92c-4b6e-bd00-f071e7124a4d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{adresa_stat}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="387" y="165" width="168" height="14" uuid="d61fadc1-6a6e-42ea-aeca-1b544053e780"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{kontakt}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="387" y="179" width="167" height="14" uuid="671c11eb-4841-4770-af33-f443137a13cb"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{telefonni_cislo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="324" y="165" width="49" height="14" uuid="b06d8f31-f8d7-4de8-9107-000a904dfb7c"/>
+				<textElement verticalAlignment="Middle">
+					<font isItalic="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Kontakt:
+                ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="324" y="179" width="49" height="14" uuid="68dd3e02-2f7e-495a-9408-281314429832"/>
+				<textElement verticalAlignment="Middle">
+					<font isItalic="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Tel.č.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="37" y="217" width="97" height="14" uuid="454728c4-637c-4775-90c8-8226f08317c3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[DIČ:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="37" y="231" width="97" height="14" uuid="76eaa1a0-dc5f-4f4d-b7f1-f819fa6f8027"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Datum vystavení:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="325" y="284" width="94" height="14" uuid="02868541-7a7f-4624-b39f-dd6e70526e48"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Země původu:
+                ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="419" y="284" width="110" height="14" uuid="1b124f6d-a55b-4e2a-9f22-926a0682f430"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false" isItalic="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[CZ
+                ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="37" y="259" width="97" height="14" uuid="93b7f7df-b8a7-45fc-bd45-82bb5d6762e0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Forma platby:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="134" y="259" width="155" height="14" uuid="8159cc4f-a89b-4ba3-b7fd-1300678f891f"/>
+				<textElement textAlignment="Left">
+					<font pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{paymentMethod}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="387" y="96" width="167" height="14" uuid="6768c837-d15f-4c20-8eda-2f089b4da2be"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{firmaPokr}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="324" y="203" width="49" height="14" uuid="a00e4667-c186-4bb6-a431-ee8ec02244e9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isItalic="true" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[DIČ:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="387" y="203" width="167" height="14" uuid="1066909f-5264-422e-a5d9-491ae91dfc32"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{vatId}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="325" y="301" width="94" height="14" uuid="4106a20b-9588-40e8-8a9e-111c375de6f6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true" isItalic="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Dodací list:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="419" y="301" width="110" height="14" uuid="8453b263-0a4d-4851-816f-18bdadf54b2c"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{lieferschein}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="38" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="393" y="2" width="66" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="2c01d7cf-d1b8-4aba-bcd0-f3890fe2073f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Cena/kus]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="340" y="2" width="33" height="16" forecolor="#000000" backcolor="#FFFFFF" uuid="468e503a-4835-428b-9dba-2a6308322977"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Počet:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="479" y="2" width="75" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="7d07eb2c-4716-4b03-aff7-f5f3502def7c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isBold="true" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Cena celkem]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="37" y="2" width="96" height="16" forecolor="#000000" backcolor="#FFFFFF" uuid="8a52136d-1e35-4e3c-bab4-2284c5aca1a2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Položka:
+                ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="250" y="2" width="63" height="16" forecolor="#000000" backcolor="#FFFFFF" uuid="e5f734ea-37e0-4a87-9829-d0cc2cf48515"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true" isStrikeThrough="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Objednávka:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="35" y="37" width="520" height="1" uuid="4e2ab503-89bc-4c3c-b4a3-470867aa97ee"/>
+			</line>
+			<line>
+				<reportElement x="35" y="1" width="520" height="1" uuid="8cd986de-fc4c-41ca-a67e-3c6548961b2b"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="554" y="2" width="1" height="35" isPrintWhenDetailOverflows="true" uuid="8b30e464-ea81-491f-8b64-24afddae5ac9"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="35" y="1" width="1" height="36" isPrintWhenDetailOverflows="true" uuid="1dc52d39-72ba-4398-bda4-f40f2ff694e9"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="144" y="2" width="96" height="16" forecolor="#000000" backcolor="#FFFFFF" uuid="8abee461-857a-434b-a357-deb99fd1bf5e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Číslo výkresu:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<break>
+				<reportElement x="0" y="14" width="554" height="1" uuid="440210a4-9e71-40b5-b549-847670623a66">
+					<printWhenExpression><![CDATA[new Boolean((($V{REPORT_COUNT}.intValue() % 14 == 0) && ($V{PAGE_NUMBER}.intValue() == 1) && ($P{pocetPolozek}.intValue() < 16)) ||
+(($V{REPORT_COUNT}.intValue() % 16 == 0) && ($V{PAGE_NUMBER}.intValue() == 1) && ($P{pocetPolozek}.intValue() < 18)) ||
+(($V{REPORT_COUNT}.intValue() % 18 == 0) && ($V{PAGE_NUMBER}.intValue() == 1) && ($P{pocetPolozek}.intValue() < 20)) ||
+(($V{REPORT_COUNT}.intValue() % 20 == 0) && ($V{PAGE_NUMBER}.intValue() == 1) && ($P{pocetPolozek}.intValue() < 22)) ||
+(($V{REPORT_COUNT}.intValue() % 22 == 0) && ($V{PAGE_NUMBER}.intValue() == 1) && ($P{pocetPolozek}.intValue() < 24)) ||
+(($V{REPORT_COUNT}.intValue() % 24 == 0) && ($V{PAGE_NUMBER}.intValue() == 1) && ($P{pocetPolozek}.intValue() < 26)))]]></printWhenExpression>
+				</reportElement>
+			</break>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="37" y="0" width="96" height="14" forecolor="#000000" backcolor="#FFFFFF" uuid="26c2d906-bc35-473a-ba7d-f1619d3d3623"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="250" y="0" width="63" height="14" uuid="f094e637-d44c-4f39-8950-6217abfcc6e7"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{purchase}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="142" y="0" width="98" height="14" uuid="6d96ac8c-b30d-4578-90e9-01da67e6e496"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{line}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="387" y="0" width="64" height="14" uuid="deeebe0f-73e6-4f6c-8f8f-4cb18b77d545"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{price} + " " + $P{mena}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="459" y="0" width="88" height="14" uuid="08282ef1-4b8b-4046-bb4f-6fc8584005d3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{netvalue} + " " + $P{mena}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="554" y="0" width="1" height="15" isPrintWhenDetailOverflows="true" uuid="38a277cb-91d1-4bb2-bf61-3ec96a15cc01"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="35" y="0" width="1" height="15" isPrintWhenDetailOverflows="true" uuid="3b69ff86-8ccd-4760-aba1-2157891b0c33"/>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement x="329" y="0" width="44" height="14" uuid="73124055-9026-4931-a9b3-cf6efe33478f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{qty}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17" splitType="Stretch">
+			<line>
+				<reportElement x="35" y="0" width="520" height="1" uuid="70d155b8-77bc-41a9-8449-3e540896d4e1">
+					<printWhenExpression><![CDATA[new Boolean((($V{REPORT_COUNT}.intValue() % 14 == 0) && ($V{PAGE_NUMBER}.intValue() == 1) && ($P{pocetPolozek}.intValue() < 18)) ||
+(($V{REPORT_COUNT}.intValue() % 16 == 0) && ($V{PAGE_NUMBER}.intValue() == 1) && ($P{pocetPolozek}.intValue() < 20)) ||
+(($V{REPORT_COUNT}.intValue() % 18 == 0) && ($V{PAGE_NUMBER}.intValue() == 1) && ($P{pocetPolozek}.intValue() < 22)) ||
+(($V{REPORT_COUNT}.intValue() % 20 == 0) && ($V{PAGE_NUMBER}.intValue() == 1) && ($P{pocetPolozek}.intValue() < 24)) ||
+(($V{REPORT_COUNT}.intValue() % 22 == 0) && ($V{PAGE_NUMBER}.intValue() == 1) && ($P{pocetPolozek}.intValue() < 26)) ||
+(($V{REPORT_COUNT}.intValue() % 24 == 0) && ($V{PAGE_NUMBER}.intValue() == 1) && ($P{pocetPolozek}.intValue() < 28)) ||
+($P{pocetPolozek}.intValue() > 26))]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<textField evaluationTime="Report">
+				<reportElement x="290" y="1" width="103" height="16" uuid="b28ccc84-c40c-411d-9d5f-b9a724fc0a49"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="75" y="1" width="214" height="16" uuid="cd072c29-612f-48a6-8317-437f9b33c02d"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}+" /"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="150" splitType="Stretch">
+			<staticText>
+				<reportElement x="329" y="21" width="80" height="20" uuid="881bbd90-52dd-4cfd-a149-575393548646"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Celková cena:
+                ]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="409" y="21" width="138" height="20" uuid="43a9371c-4834-4e77-96e0-8058c81fd8cc"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{celkova_cena} + " " + $P{mena}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="323" y="20" width="1" height="21" uuid="af03342d-123a-40c7-b0c3-f2aaa103b563"/>
+			</line>
+			<line>
+				<reportElement x="554" y="0" width="1" height="42" uuid="f49345a2-c3cb-43b6-abfb-644c3a295fed"/>
+			</line>
+			<line>
+				<reportElement x="35" y="19" width="520" height="1" uuid="8400b422-e9a4-434f-b30d-589de66d9908"/>
+			</line>
+			<staticText>
+				<reportElement x="419" y="105" width="127" height="14" uuid="7b2b6605-f368-48db-bb58-4c01f2b3a769"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Jméno, podpis, razítko
+                ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="35" y="0" width="1" height="19" uuid="aeebdfba-1ae7-4a5d-bd0c-b54e5edf1abf"/>
+			</line>
+			<textField>
+				<reportElement x="419" y="119" width="127" height="14" uuid="6beaf271-532e-43db-88c8-58d659ead6a9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="false" isItalic="false" pdfFontName="Helvetica-Bold" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fakturu_vystavil}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="323" y="41" width="231" height="1" uuid="82260b05-edc5-4240-b468-f72a34bab251"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

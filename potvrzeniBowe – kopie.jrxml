@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="43b381f9-4a33-4005-81a4-7ed7d70b09ab">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="prijemce" class="java.lang.String"/>
+	<parameter name="predmet" class="java.lang.String"/>
+	<parameter name="info" class="java.lang.String"/>
+	<parameter name="dodatek" class="java.lang.String"/>
+	<parameter name="datum" class="java.lang.String"/>
+	<parameter name="fakturu_vystavil" class="java.lang.String"/>
+	<parameter name="firma" class="java.lang.String"/>
+	<parameter name="adresa_ulice" class="java.lang.String"/>
+	<parameter name="adresa_psc_mesto" class="java.lang.String"/>
+	<parameter name="firma_mikron" class="java.lang.String"/>
+	<parameter name="adresa_ulice_mikron" class="java.lang.String"/>
+	<parameter name="adresa_psc_mesto_mikron" class="java.lang.String"/>
+	<parameter name="telefon" class="java.lang.String"/>
+	<parameter name="fax" class="java.lang.String"/>
+	<parameter name="email" class="java.lang.String"/>
+	<parameter name="potvrzeni_id" class="java.lang.Long"/>
+	<parameter name="zakaznik_id" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT to_char(objednavky_datum_objednani,'DD.MM.YYYY') AS datum,
+                objednavky_nazev_soucasti AS benennung,
+                vykresy_cislo AS zeichnung,
+                vykresy_revize AS ae,
+                objednavky_cislo_objednavky AS bestell,
+                objednavky_pocet_objednanych_kusu || ' St.' AS menge,
+                 to_char(vazba_potvrzeni_datum,'DD.MM.YYYY') AS lieferung
+                FROM spolecne.objednavky
+                CROSS JOIN spolecne.vykresy
+                CROSS JOIN spolecne.vazba_potvrzeni_objednavky
+                WHERE objednavky_zakaznik_id = $P{zakaznik_id}
+                AND vykresy.vykresy_id = objednavky.objednavky_cislo_vykresu
+                AND objednavky.objednavky_id = vazba_potvrzeni_objednavky_objednavky_id
+                AND vazba_potvrzeni_objednavky_potvrzeni_id = $P{potvrzeni_id}
+                ORDER BY objednavky_cislo_objednavky ASC]]>
+	</queryString>
+	<field name="datum" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="benennung" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="zeichnung" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ae" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="bestell" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="menge" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="lieferung" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="194" splitType="Stretch">
+			<staticText>
+				<reportElement x="48" y="124" width="52" height="14" uuid="f997a625-3b43-46c8-95d3-064baaa8d64f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isItalic="true" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Betrifft:
+                ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="48" y="110" width="52" height="14" uuid="161b1bcf-8c82-4da3-ac1f-16362faa372d"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isItalic="true" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1252" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[An:
+                ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="370" y="30" width="185" height="16" uuid="b8ee9f11-6188-4ecb-9398-5901c4d5c649"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="false" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{firma}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="46" width="185" height="16" uuid="5a8e6602-afe1-4860-bbca-932aa4a84079"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="false" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{adresa_ulice}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="62" width="185" height="16" uuid="65544e2a-e52b-41d4-b67b-dc7cfda75716"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="false" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{adresa_psc_mesto}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="132" y="110" width="147" height="14" uuid="bc1f9522-c69b-4e9f-a3e4-7b7b0ea89d68"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{prijemce}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="96" width="185" height="14" uuid="8e67928c-c67d-49ff-bfa8-3c2a193970bf"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{datum}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="132" y="124" width="147" height="14" uuid="dcfd5fde-b07c-4da0-96a4-8ce9f0cdf5ae"/>
+				<textElement>
+					<font isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{predmet}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="43" y="159" width="493" height="14" isPrintWhenDetailOverflows="true" uuid="4c594ab9-8af0-43ba-8ac3-cd47705499fb"/>
+				<textFieldExpression><![CDATA[$P{info}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="43" y="30" width="180" height="48" uuid="3052aa82-8aca-477c-9401-5dfef7b2596e"/>
+				<imageExpression><![CDATA["mikron.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="467" y="1" width="74" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="14d340ab-d918-4a76-9d0e-46d8a4d350d0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[Lieferung:
+                ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="80" y="1" width="117" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="7eae1747-ccf6-4bf2-a535-0a2084b81536"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isItalic="true" pdfFontName="Helvetica-Oblique" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Benennung:
+                ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="279" y="1" width="49" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="b9894a13-57f8-4bef-bce9-9207b138b72d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[ÄE.:
+                ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="411" y="1" width="55" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="9fb7d32d-4f0d-4f20-b843-6c010dc9e03f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[Menge:
+                ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="201" y="1" width="78" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="9c103700-1c24-462e-ac2b-b7062ef1ad50"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[Zeichnung:
+                ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="24" y="1" width="55" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="93552e88-a028-4792-b329-4bb5699b946f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isItalic="true" pdfFontName="Helvetica-Oblique" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[B.Datum:
+                ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="23" y="17" width="520" height="1" uuid="e1d5133f-63dc-4fd0-88bb-c38669ece519"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="329" y="1" width="80" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="d3449b82-1f3e-4d12-834a-220c275e9ed2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" isItalic="true" pdfFontName="Helvetica-Oblique"/>
+				</textElement>
+				<text><![CDATA[Bestell. Nr.:
+                ]]></text>
+			</staticText>
+			<line>
+				<reportElement x="23" y="1" width="520" height="1" uuid="f6ab9c64-bb27-4810-a327-c15bd9078a11"/>
+			</line>
+			<line>
+				<reportElement x="23" y="2" width="1" height="15" uuid="2f1c25bc-5a25-4cb1-80d5-ec2c43da77b1"/>
+			</line>
+			<line>
+				<reportElement x="79" y="1" width="1" height="16" uuid="ed55e127-5c87-46bf-8a9d-26f59ea8158d"/>
+			</line>
+			<line>
+				<reportElement x="197" y="2" width="1" height="16" uuid="8848ebdc-e83c-410b-abd3-0f98025def8f"/>
+			</line>
+			<line>
+				<reportElement x="278" y="2" width="1" height="16" uuid="c415e3e6-4211-45c9-a1e8-d25a6d608b09"/>
+			</line>
+			<line>
+				<reportElement x="329" y="2" width="1" height="16" uuid="f482e382-d6e2-4ce3-9644-8c7be50c466d"/>
+			</line>
+			<line>
+				<reportElement x="410" y="1" width="1" height="16" uuid="06c9c962-b9ba-4de7-9343-ed3a918084cc"/>
+			</line>
+			<line>
+				<reportElement x="466" y="1" width="1" height="16" uuid="b8efc2e9-687a-479a-a2a8-ba846d30a70b"/>
+			</line>
+			<line>
+				<reportElement x="543" y="1" width="1" height="17" uuid="9075a90b-ad96-4dc7-8c93-a14817fe28e1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="25" y="1" width="54" height="13" isPrintWhenDetailOverflows="true" uuid="6c4a1bb0-9e0f-47b8-84db-1c48ab17e1ed"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{datum}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="81" y="1" width="116" height="13" isPrintWhenDetailOverflows="true" uuid="68c13b80-288d-48c4-a812-1a7efcb1f59a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{benennung}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="330" y="1" width="80" height="13" isPrintWhenDetailOverflows="true" uuid="e0283bd2-2e36-43df-a948-a958f1a03c38"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bestell}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="279" y="1" width="50" height="13" isPrintWhenDetailOverflows="true" uuid="379939bc-7b5e-47e7-a1e0-f2d67c3a1720"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="10" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ae}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="411" y="1" width="55" height="13" isPrintWhenDetailOverflows="true" uuid="3f19d273-e039-4ea8-9471-002eff3b0f25"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{menge}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="200" y="1" width="78" height="13" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="3b4a55cf-7502-4146-a062-c06a72c26003"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" isBold="false" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zeichnung}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="467" y="1" width="74" height="13" isPrintWhenDetailOverflows="true" uuid="deffea8d-2da0-46fb-9d4b-b367052b57ce"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lieferung}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="79" y="0" width="1" height="14" isPrintWhenDetailOverflows="true" uuid="5245118a-1f8a-4f62-a625-c30be9073792"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="197" y="0" width="1" height="14" isPrintWhenDetailOverflows="true" uuid="b75d485c-e064-435f-bc08-ac183df87d31"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="23" y="0" width="1" height="14" isPrintWhenDetailOverflows="true" uuid="ff2f86a5-79df-4d1d-8364-1882c9b39d56"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="278" y="0" width="1" height="14" isPrintWhenDetailOverflows="true" uuid="7c5d2142-867d-4fc8-a565-bec3ffea9238"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="329" y="0" width="1" height="14" isPrintWhenDetailOverflows="true" uuid="8527a967-1860-40d4-9b3c-5c914964333e"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="410" y="0" width="1" height="14" isPrintWhenDetailOverflows="true" uuid="16fe0103-c7b7-4d7e-b093-a9b0258161e3"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="466" y="0" width="1" height="14" isPrintWhenDetailOverflows="true" uuid="a634dc09-4c82-458c-b21e-88e2097d6a78"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="543" y="0" width="1" height="15" isPrintWhenDetailOverflows="true" uuid="ac9ffc5c-465c-4d74-840a-f1a3ba88af14"/>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="23" y="14" width="520" height="1" uuid="9b11dc5f-434e-432d-ad98-6ce085a017de"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="31" splitType="Stretch">
+			<textField>
+				<reportElement x="75" y="12" width="214" height="16" uuid="da8fdd0e-5aa2-420c-b945-afd2a15bee35"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}+" /"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="289" y="12" width="103" height="16" uuid="680f018b-979e-4d88-9407-012455d978c0"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="222" splitType="Stretch">
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" x="43" y="43" width="498" height="14" isPrintWhenDetailOverflows="true" uuid="fa181ebe-4bca-4b18-ab81-29176d31b189"/>
+				<textElement>
+					<font fontName="Arial" size="10" pdfEncoding="Cp1252" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Mit freundlichen Grüssen
+                ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="43" y="88" width="100" height="14" uuid="31e9d322-5c1c-437f-931c-e211d011c2ec"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Jednatel
+                ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="43" y="74" width="126" height="14" uuid="588734e3-fd33-4d82-be73-d4b4f5f8cf33"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fakturu_vystavil}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToBandHeight" x="43" y="16" width="498" height="14" isPrintWhenDetailOverflows="true" uuid="0c75a8a2-5129-4f2b-b518-284a207dd8d0"/>
+				<textFieldExpression><![CDATA[$P{dodatek}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="43" y="115" width="141" height="14" uuid="4bbfd954-e5ea-47ed-9ae9-7766667e714c"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{firma_mikron}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="43" y="129" width="141" height="14" uuid="71a14292-2612-4b1f-b0fb-6c351aa67864"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{adresa_ulice_mikron}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="43" y="143" width="141" height="14" uuid="934203ee-a1bb-4bb2-b40d-bd0ca0ec331d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{adresa_psc_mesto_mikron}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="43" y="168" width="235" height="14" uuid="295117ec-1aa2-40fc-ae41-e3f2bbfcf0bb"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{telefon}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="43" y="182" width="235" height="14" uuid="c4b0ca9b-3424-4121-ab0f-fbcbb0d62744"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fax}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="43" y="196" width="235" height="14" uuid="1b18cb98-2b0f-44b0-84ea-91a528398d08"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{email}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

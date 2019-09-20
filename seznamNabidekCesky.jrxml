@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="aa70fb67-2bde-47d7-ac2c-dd2d72e559e8">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="388"/>
+	<parameter name="prijemce" class="java.lang.String"/>
+	<parameter name="predmet" class="java.lang.String"/>
+	<parameter name="info" class="java.lang.String"/>
+	<parameter name="datum" class="java.lang.String"/>
+	<parameter name="seznam_vystavil" class="java.lang.String"/>
+	<parameter name="firma" class="java.lang.String"/>
+	<parameter name="adresa_ulice" class="java.lang.String"/>
+	<parameter name="adresa_psc_mesto" class="java.lang.String"/>
+    <parameter name="logo" class="java.lang.String"/>
+	<parameter name="seznam_id" class="java.lang.Long"/>
+	<parameter name="zakaznik_id" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT vykresy_cislo AS zeichnung,
+                vykresy_nazev AS benennung,
+                COALESCE(vykresy_revize, ' ') AS ae,
+                nabidky_pocet_objednanych_kusu AS menge,
+                nabidky_cena_za_kus AS epreis
+                FROM spolecne.nabidky
+                CROSS JOIN spolecne.vykresy
+                CROSS JOIN spolecne.vazba_seznam_nabidky
+                WHERE vykresy.vykresy_id = nabidky.nabidky_cislo_vykresu
+                AND nabidky.nabidky_id = vazba_seznam_nabidky_nabidky_id
+                AND vazba_seznam_nabidky_seznam_id = $P{seznam_id}
+                ORDER BY vazba_seznam_nabidky_poradi, vykresy_cislo ASC]]>
+	</queryString>
+	<field name="zeichnung" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="benennung" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ae" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="menge" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="epreis" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="219" splitType="Stretch">
+			<staticText>
+				<reportElement x="25" y="144" width="52" height="14" uuid="493e7896-bf30-4204-8db1-1589f9991a9a"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isItalic="true" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Předmět :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="25" y="129" width="52" height="14" uuid="1c5e515c-54ed-4a0b-9307-bb3cb16617e1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" isItalic="true" pdfFontName="Helvetica-Oblique" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Příjemce :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="370" y="36" width="185" height="16" uuid="44256ada-7106-4c77-bc71-ae4e74569225"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{firma}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="52" width="185" height="16" uuid="9d26b987-7622-4d98-a4a9-6c9b09b918f0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{adresa_ulice}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="68" width="185" height="16" uuid="a20f3c4a-64f4-48d2-ab7a-fb4c99e52bf4"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="false" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{adresa_psc_mesto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="109" y="129" width="147" height="14" uuid="b52759c9-de6c-4afe-aeec-6186e9762afb"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{prijemce}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="103" width="185" height="14" uuid="34396719-b994-4b71-a6cf-c47038451ac0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{datum}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="109" y="144" width="147" height="14" uuid="4afd43a9-b3c8-4fbc-bb4b-8f7f6c42cc49"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{predmet}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="231" y="182" width="100" height="20" uuid="5fd5f5ef-c64a-4e23-92da-75aeeebe72e4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isItalic="false" isUnderline="true" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Cenová nabídka na :]]></text>
+			</staticText>
+			<image>
+				<reportElement x="25" y="30" width="189" height="54" uuid="f9fb0fd0-f97b-441c-823d-21386d6d54d5"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="467" y="1" width="74" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="b91b539d-ade1-40ae-82c5-274d7caaef91"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isItalic="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Cena: (Kč/ks)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="231" y="2" width="75" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="631a0611-e40a-4ab7-a5ea-98d7130af048"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isItalic="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Název výrobku :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="370" y="1" width="75" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="d2e3b1f4-9809-4242-b1d3-6d2298d295a3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isItalic="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Počet :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="77" y="1" width="70" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="ede3da11-c148-4793-bca3-e81cd7a57029"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isItalic="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Výkres :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="25" y="1" width="54" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="877b8aad-7c17-4bd2-abd3-0cdd3ebede05"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isItalic="false" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Pořadí.:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="39" y="17" width="504" height="1" uuid="212e35ce-41e1-4bca-a37d-2386d0de668d"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="172" y="1" width="59" height="15" forecolor="#000000" backcolor="#FFFFFF" uuid="14a305e3-6247-45d4-8c44-5e1218563247"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isItalic="false" pdfFontName="Helvetica" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Revize :]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="63" y="1" width="99" height="13" isPrintWhenDetailOverflows="true" forecolor="#000000" backcolor="#FFFFFF" uuid="1c40254e-f65d-40f6-aff4-2331e2e92ab0"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" isBold="false" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{zeichnung}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="370" y="0" width="55" height="14" isPrintWhenDetailOverflows="true" uuid="9b0446ea-8300-4b58-9d59-c59938c064ec"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{menge}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="231" y="1" width="127" height="13" isPrintWhenDetailOverflows="true" uuid="edf675a5-c60e-4c5d-97c2-9613d4f1a28b"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{benennung}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0.00">
+				<reportElement stretchType="RelativeToBandHeight" x="467" y="0" width="64" height="14" isPrintWhenDetailOverflows="true" uuid="de183156-cfad-4040-a001-6fd801c43762"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{epreis}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="25" y="1" width="38" height="13" uuid="f7858b00-c5e9-49cc-a090-aeec5f5846f2"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT} + ""]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement stretchType="RelativeToBandHeight" x="172" y="1" width="55" height="13" isPrintWhenDetailOverflows="true" uuid="83524736-0049-41b0-a47d-c61f9695e78a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ae}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="43" splitType="Stretch">
+			<textField>
+				<reportElement x="92" y="23" width="214" height="16" uuid="fc64f228-2d11-41a6-b771-74857724ac46"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}+" /"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="306" y="23" width="103" height="16" uuid="535d4c8a-e40d-49a7-bde6-e704069187fe"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="107" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="413" y="50" width="128" height="14" isPrintWhenDetailOverflows="true" uuid="92e49de9-97d0-48ef-a8b9-51d4c81086f4"/>
+				<textElement>
+					<font fontName="Arial" size="10" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Nabídku zpracoval]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="415" y="79" width="126" height="14" uuid="860c7603-8a21-4ae7-b0b1-2a43b5df3241"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{seznam_vystavil}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="39" y="18" width="479" height="14" isPrintWhenDetailOverflows="true" uuid="970aea9f-7767-419e-93c4-01939db7df56"/>
+				<textElement>
+					<font fontName="Arial" pdfEncoding="Cp1250" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{info}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

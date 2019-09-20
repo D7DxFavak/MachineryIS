@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<parameter name="zamestnanec_jmeno" class="java.lang.String"/>
+	<parameter name="zamestnanec_id" class="java.lang.String"/>
+	<parameter name="termin_od" class="java.lang.String"/>
+	<parameter name="termin_do" class="java.lang.String"/>
+	<parameter name="pracePresahy" class="java.lang.String"/>
+	<parameter name="praceBezPresahu" class="java.lang.String"/>
+	<parameter name="pracePresahyTime" class="java.lang.String"/>
+	<parameter name="praceBezPresahuTime" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT tiskzamestnanci_datum_od AS datumod,
+        tiskzamestnanci_datum_do AS datumdo,
+        CASE WHEN tiskzamestnanci_vykres_cislo = '01010101' THEN 'údržba stroje'
+        ELSE  tiskzamestnanci_vykres_cislo
+        END AS vykrescislo,
+        tiskzamestnanci_stroj AS stroj,
+        tiskzamestnanci_doba_prace AS dobaprace,
+        tiskzamestnanci_pocet_kusu AS kusy
+        FROM spolecne.tiskzamestnanci ORDER BY tiskzamestnanci_id ASC]]>
+	</queryString>
+	<field name="datumod" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="datumdo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vykrescislo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="stroj" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dobaprace" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="kusy" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="92" splitType="Stretch">
+			<staticText>
+				<reportElement x="9" y="67" width="67" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isItalic="false" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Termín od]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="9" y="12" width="393" height="40"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="9" y="12" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true" isItalic="false" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Zaměstnanec :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="109" y="12" width="293" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{zamestnanec_jmeno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="109" y="32" width="293" height="20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{zamestnanec_id}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="76" y="67" width="94" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{termin_od}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="9" y="32" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true" isItalic="false" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Číslo :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="67" width="23" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11" isItalic="false" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[do ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="193" y="67" width="94" height="15"/>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{termin_do}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="346" y="2" width="71" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Stroj :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="145" y="2" width="103" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Do :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="417" y="2" width="83" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Doba práce :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="510" y="2" width="45" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="10" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Kusy :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="50" y="2" width="40" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Od :]]></text>
+			</staticText>
+			<line>
+				<reportElement x="9" y="17" width="546" height="1"/>
+			</line>
+			<line>
+				<reportElement x="9" y="1" width="546" height="1"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="252" y="2" width="83" height="14" forecolor="#000000" backcolor="#FFFFFF"/>
+				<textElement verticalAlignment="Middle">
+					<font size="10" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Výkres :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="9" y="2" width="33" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Číslo:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<textField>
+				<reportElement x="50" y="0" width="95" height="14"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{datumod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="145" y="0" width="103" height="14"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{datumdo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="252" y="0" width="94" height="14"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{vykrescislo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="417" y="0" width="73" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{dobaprace}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="490" y="0" width="54" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{kusy}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="346" y="0" width="71" height="14"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="10" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{stroj}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="15" y="0" width="20" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{REPORT_COUNT} + ""]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="47" splitType="Stretch">
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement key="textField" x="0" y="15" width="555" height="19" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Strana " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="79" splitType="Stretch">
+			<textField>
+				<reportElement x="324" y="37" width="67" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{pracePresahy}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="224" y="37" width="100" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Doba práce :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="224" y="53" width="100" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[Čistá doba práce :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="325" y="53" width="66" height="14"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="11" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{praceBezPresahu}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="224" y="36" width="241" height="1"/>
+			</line>
+			<line>
+				<reportElement x="225" y="66" width="240" height="1"/>
+			</line>
+			<line>
+				<reportElement x="224" y="36" width="1" height="31"/>
+			</line>
+			<line>
+				<reportElement x="464" y="37" width="1" height="29"/>
+			</line>
+			<staticText>
+				<reportElement x="391" y="37" width="11" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="391" y="53" width="11" height="14"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" pdfEncoding="Cp1250"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="402" y="37" width="52" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{pracePresahyTime}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="402" y="53" width="52" height="14"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="11" pdfEncoding="Cp1250"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{praceBezPresahuTime}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
